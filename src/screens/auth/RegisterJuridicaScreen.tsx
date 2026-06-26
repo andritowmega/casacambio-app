@@ -18,11 +18,13 @@ export function RegisterJuridicaScreen() {
   const [loading, setLoading] = useState(false)
   const [cities, setCities] = useState<any[]>([])
 
+  const [documentTypes, setDocumentTypes] = useState<any[]>([])
   const [form, setForm] = useState({
     emailuser: '',
     password: '',
     namesuser: '',
     surnamesuser: '',
+    documenttype: '',
     documentnumber: '',
     dateofbirth: '',
     cityid: 0,
@@ -34,9 +36,13 @@ export function RegisterJuridicaScreen() {
   })
 
   useEffect(() => {
-    catalogApi.getCities(1)
-      .then((res) => setCities(res.data.data ?? []))
-      .catch(() => {})
+    Promise.all([
+      catalogApi.getCities(1),
+      catalogApi.getDocumentTypes(),
+    ]).then(([citiesRes, dtRes]) => {
+      setCities(citiesRes.data.data ?? [])
+      setDocumentTypes(dtRes.data.data ?? [])
+    }).catch(() => {})
   }, [])
 
   function setField(field: keyof typeof form, value: any) {
@@ -44,8 +50,8 @@ export function RegisterJuridicaScreen() {
   }
 
   async function handleRegister() {
-    const { emailuser, password, namesuser, surnamesuser, documentnumber, dateofbirth, cityid, contactnumber, businessname, ruc } = form
-    if (!emailuser || !password || !namesuser || !surnamesuser || !documentnumber || !dateofbirth || !cityid || !contactnumber || !businessname || !ruc) {
+    const { emailuser, password, namesuser, surnamesuser, documenttype, documentnumber, dateofbirth, cityid, contactnumber, businessname, ruc } = form
+    if (!emailuser || !password || !namesuser || !surnamesuser || !documenttype || !documentnumber || !dateofbirth || !cityid || !contactnumber || !businessname || !ruc) {
       return Alert.alert('Completa todos los campos obligatorios')
     }
     const normalizedEmail = emailuser.trim().toLowerCase()
@@ -54,9 +60,8 @@ export function RegisterJuridicaScreen() {
       await authApi.registerUser({
         ...form,
         emailuser: normalizedEmail,
-        usertype: 'juridica',
+        usertype: '2',
         countryid: 1,
-        documenttype: 4,
       })
       const loginRes = await authApi.loginUser(normalizedEmail, form.password)
       const user = loginRes.data.data
@@ -91,7 +96,18 @@ export function RegisterJuridicaScreen() {
         <Section title="Datos del representante">
           <Field label="Nombres *" value={form.namesuser} onChange={(v: string) => setField('namesuser', v)} />
           <Field label="Apellidos *" value={form.surnamesuser} onChange={(v: string) => setField('surnamesuser', v)} />
-          <Field label="N° de documento (DNI) *" value={form.documentnumber} onChange={(v: string) => setField('documentnumber', v)} keyboard="numeric" />
+          <Text style={{ fontSize: 13, fontWeight: '600', color: '#374151', marginBottom: 6 }}>Tipo de documento *</Text>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 12 }}>
+            {documentTypes.map((dt) => (
+              <Chip
+                key={dt.idcatalog}
+                label={dt.value}
+                active={form.documenttype === String(dt.idcatalog)}
+                onPress={() => setField('documenttype', String(dt.idcatalog))}
+              />
+            ))}
+          </View>
+          <Field label="N° de documento *" value={form.documentnumber} onChange={(v: string) => setField('documentnumber', v)} keyboard="numeric" />
           <DatePickerField label="Fecha de nacimiento *" value={form.dateofbirth} onChange={(v) => setField('dateofbirth', v)} />
           <Field label="Teléfono de contacto *" value={form.contactnumber} onChange={(v: string) => setField('contactnumber', v)} keyboard="phone-pad" />
           <Field label="Cargo / Ocupación" value={form.occupation} onChange={(v: string) => setField('occupation', v)} />

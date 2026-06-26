@@ -44,7 +44,8 @@ export async function registerPushToken(): Promise<void> {
   }
   if (finalStatus !== 'granted') return
 
-  const { data: token } = await Notifications.getExpoPushTokenAsync()
+  const projectId = Constants.expoConfig?.extra?.eas?.projectId as string | undefined
+  const { data: token } = await Notifications.getExpoPushTokenAsync({ projectId })
   await userApi.savePushToken(token)
 }
 

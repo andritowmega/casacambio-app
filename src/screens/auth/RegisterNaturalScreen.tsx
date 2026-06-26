@@ -61,7 +61,7 @@ export function RegisterNaturalScreen() {
     const normalizedEmail = emailuser.trim().toLowerCase()
     try {
       setLoading(true)
-      await authApi.registerUser({ ...form, emailuser: normalizedEmail, usertype: 'natural', countryid: 1 })
+      await authApi.registerUser({ ...form, emailuser: normalizedEmail, usertype: '1', countryid: 1 })
       const loginRes = await authApi.loginUser(normalizedEmail, form.password)
       const user = loginRes.data.data
       await setUser(user)
