@@ -1,0 +1,77 @@
+{
+  "project_info": {
+    "project_number": "182328505208",
+    "firebase_url": "https://notificaciones-79628.firebaseio.com",
+    "project_id": "notificaciones-79628",
+    "storage_bucket": "notificaciones-79628.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:182328505208:android:8ababe0b25ed007cbc0e8d",
+        "android_client_info": {
+          "package_name": "com.bostondolar.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "182328505208-slofph78st2jg399k14025ae5g9lkeh5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWEfA6awhK9acQG4EYQKTiuPOmJw2aGMI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "182328505208-slofph78st2jg399k14025ae5g9lkeh5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:182328505208:android:4470676e3a1a9895",
+        "android_client_info": {
+          "package_name": "com.example.andritowpcnotifiactionpush.notificationpush"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "182328505208-objl2470ei3g7hu8b9p2mi31h7ocim30.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.andritowpcnotifiactionpush.notificationpush",
+            "certificate_hash": "15288622fc9367167cb1554282933fd8b904f3d0"
+          }
+        },
+        {
+          "client_id": "182328505208-slofph78st2jg399k14025ae5g9lkeh5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWEfA6awhK9acQG4EYQKTiuPOmJw2aGMI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "182328505208-slofph78st2jg399k14025ae5g9lkeh5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
