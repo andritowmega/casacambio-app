@@ -38,6 +38,9 @@ yarn-error.*
 google-play-service-account.json
 google-services.json
 
+# Claude Code
+.claude/
+
 # typescript
 *.tsbuildinfo
 
