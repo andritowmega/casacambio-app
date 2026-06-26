@@ -1,20 +1,37 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect } from 'react'
+import { StatusBar } from 'expo-status-bar'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { AppNavigator } from '@/navigation'
+import { useAuthStore } from '@/store/auth.store'
+import { connectSSE } from '@/services/sse.service'
+import { addResponseListener, initLocalNotifications } from '@/services/push.service'
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+  const { loadFromStorage, user } = useAuthStore()
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  useEffect(() => {
+    loadFromStorage()
+    initLocalNotifications()
+  }, [])
+
+  useEffect(() => {
+    if (user) connectSSE()
+  }, [user])
+
+  useEffect(() => {
+    const sub = addResponseListener((response) => {
+      const data = response.notification.request.content.data as any
+      if (data?.exchangeId) {
+        // navegación manejada desde el navigator cuando la app está abierta
+      }
+    })
+    return () => sub.remove()
+  }, [])
+
+  return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <StatusBar style="light" />
+      <AppNavigator />
+    </GestureHandlerRootView>
+  )
+}
